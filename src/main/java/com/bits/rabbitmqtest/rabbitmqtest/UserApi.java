@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/v1/user")
 public class UserApi {
@@ -14,8 +16,11 @@ public class UserApi {
         this.messageSender = messageSender;
     }
 
-    @PostMapping(value = "/publish")
-    public void sendMessageToRabbitMq() {
-        messageSender.send(RandomStringUtils.randomAlphabetic(5));
+    @PostMapping(value = "/publishUser")
+    public void sendUserMessageToRabbitMq() {
+        User user = new User();
+        user.setId(UUID.randomUUID().toString());
+        user.setName(RandomStringUtils.randomAlphabetic(5));
+        messageSender.send(user);
     }
 }

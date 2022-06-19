@@ -19,7 +19,12 @@ public class MessageSender {
     }
 
 
-    public void send(String message){
-        rabbitTemplate.convertAndSend(exchange, routingkey, message);
+    public void send(User user){
+        try{
+            rabbitTemplate.convertAndSend(exchange, routingkey, user);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 }
